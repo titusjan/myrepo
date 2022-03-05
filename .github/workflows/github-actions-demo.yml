@@ -80,10 +80,12 @@ jobs:
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-      - name: Print current directory
+      - name: Print current directory in bash shell
         run: echo "Current dir ${PWD}"
+        shell: bash
 
       - name: Test with pytest
         run: |
           pytest tests 
-          
+        shell: bash
+
