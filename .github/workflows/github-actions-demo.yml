@@ -90,3 +90,10 @@ jobs:
           echo "Current dir ${PWD}"
           echo "Home dir ${HOME}"
           pytest tests
+
+      - name: Run the test program
+        run: |
+          echo "Python version $(python --version)"
+          
+          # Exit automatically after 3 seconds
+          python myrepo\main.py 3
