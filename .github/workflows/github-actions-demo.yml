@@ -106,6 +106,9 @@ jobs:
       - name: 'XVFB Display Info'
         if: runner.os == 'Linux'
         run: |
+          echo "virtual args: ${VIRTUAL_ARGS}"
+          echo virtual args: ${VIRTUAL_ARGS}
+          echo virtual args: $VIRTUAL_DESKTOP $VIRTUAL_ARGS
           xvfb-run $VIRTUAL_ARGS python -m pyqtgraph.util.get_resolution
 
       - name: 'Display Info'
