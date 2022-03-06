@@ -11,7 +11,8 @@ defaults:
 
 env:
   DAY_OF_WEEK: Monday
-  VIRTUAL_DESKTOP: xvfb-run --server-args="-screen 0, 1920x1200x24 -ac +render -noreset"
+  PROG: ls
+  VIRTUAL_DESKTOP: xvfb-run
 
 jobs:
   dump-contexts-to-log:
@@ -101,10 +102,13 @@ jobs:
           sudo apt-get install --no-install-recommends -y libyaml-dev libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0
           pip install pytest-xvfb
 
+      - name: List files in the current dir using the PROG environment variable
+        run: "${PROG}"
+
       - name: 'XVFB Display Info'
         if: runner.os == 'Linux'
         run: |
-          "${VIRTUAL_DESKTOP} python -m pyqtgraph.util.get_resolution"
+          "${VIRTUAL_DESKTOP}" --server-args="-screen 0, 1920x1200x24 -ac +render -noreset" python -m pyqtgraph.util.get_resolution
 
       - name: 'Display Info'
         if: runner.os != 'Linux'
@@ -135,7 +139,7 @@ jobs:
           echo "Python version $(python --version)"
           
           # Exit automatically after 3 seconds
-          {{ env.VIRTUAL_DESKTOP }} python myrepo/main.py 3
+          {{ env.VIRTUAL_DESKTOP }} --server-args="-screen 0, 1920x1200x24 -ac +render -noreset" python myrepo/main.py 3
 
 
       - name: Lint with flake8
