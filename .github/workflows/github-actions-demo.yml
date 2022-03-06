@@ -128,6 +128,12 @@ jobs:
           echo ==== installed packages ====
           pip list
 
+      - name: Run the test program (cross platform)
+        # https://github.com/marketplace/actions/gabrielbb-xvfb-action
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: python myrepo/main.py 3
+
       - name: Run the test program (Windows, Mac-OS)
         if: runner.os != 'Linux'
         run: |
