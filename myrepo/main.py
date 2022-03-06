@@ -26,13 +26,18 @@ class MyWindow(QtWidgets.QWidget):
         self._startTime = time.perf_counter()
         self._endTime = None if timeout is None else self._startTime + timeout
 
+        for i in range(20):
+            logger.info("Before timer start")
+
 
         self._onStartupTimer = QtCore.QTimer(self)
-        self._onStartupTimer.setInterval(100) # Start when event loop has started
+        self._onStartupTimer.setInterval(1000) # Start when event loop has started
         self._onStartupTimer.setSingleShot(False)
         self._onStartupTimer.timeout.connect(self.onTimeout)
         self._onStartupTimer.start()
 
+        for i in range(20):
+            logger.info("After timer start")
 
 
 
@@ -42,10 +47,10 @@ class MyWindow(QtWidgets.QWidget):
             wait = self._endTime - now
 
             if wait < 0:
-                logger.info("Self destruct sequence initiated!")
+                logger.info("Self destruct sequence initiated (1000)!")
                 self.close()
             else:
-                logger.info("Exiting program in {:.2f} seconds".format(wait))
+                logger.critical("Exiting program in {:.2f} seconds".format(wait))
                 self.label.setText("{:.2f} seconds".format(wait))
 
 
