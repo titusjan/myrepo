@@ -94,8 +94,7 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install -y libxkbcommon-x11-0 x11-utils
-          sudo apt-get install --no-install-recommends -y libyaml-dev libegl1-mesa libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0
-          sudo apt-get install -y libopengl0
+          sudo apt-get install --no-install-recommends -y libyaml-dev libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0
           pip install pytest-xvfb
 
       - name: 'XVFB Display Info'
@@ -132,7 +131,7 @@ jobs:
           echo "Python version $(python --version)"
           
           # Exit automatically after 3 seconds
-          xvfb-run --server-args="-screen 0, 1920x1200x24 -ac +extension GLX +render -noreset" python myrepo/main.py 3
+          xvfb-run --server-args="-screen 0, 1920x1200x24 -ac +render -noreset" python myrepo/main.py 3
 
 
       - name: Lint with flake8
