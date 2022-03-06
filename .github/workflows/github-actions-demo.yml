@@ -11,6 +11,7 @@ defaults:
 
 env:
   DAY_OF_WEEK: Monday
+  MY_STR: "'Hello world'"
   PROG: ls
   VIRTUAL_DESKTOP: xvfb-run  # Can't get it to run with this as an environment variable. Perhaps I should make an action of it.
   VIRTUAL_ARGS: --server-args='-screen 0, 1920x1200x24 -ac +render -noreset'
@@ -109,6 +110,8 @@ jobs:
           echo "virtual args: ${VIRTUAL_ARGS}"
           echo virtual args: ${VIRTUAL_ARGS}
           echo virtual args: $VIRTUAL_DESKTOP $VIRTUAL_ARGS
+          python -c "print(${MY_STR})"
+          
           xvfb-run $VIRTUAL_ARGS python -m pyqtgraph.util.get_resolution
 
       - name: 'Display Info'
