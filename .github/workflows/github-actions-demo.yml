@@ -115,17 +115,24 @@ jobs:
           echo python location: `which python`
           echo python version: `python --version`
           echo pytest location: `which pytest`
-          echo installed packages
+          echo ==== installed packages ====
           pip list
-          echo pyqtgraph system info
-          python -c "import pyqtgraph as pg; pg.systemInfo()"
 
-      - name: Run the test program
+      - name: Run the test program (Windows, Mac-OS)
+        if: runner.os != 'Linux'
         run: |
           echo "Python version $(python --version)"
           
           # Exit automatically after 3 seconds
           python myrepo/main.py 3
+
+      - name: Run the test program (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          echo "Python version $(python --version)"
+          
+          # Exit automatically after 3 seconds
+          C:\Users\kenter\Documents\src\myrepo\.github\workflows\github-actions-demo.yml python myrepo/main.py 3
 
 
       - name: Lint with flake8
