@@ -104,7 +104,7 @@ jobs:
       - name: 'XVFB Display Info'
         if: runner.os == 'Linux'
         run: |
-          ${VIRTUAL_DESKTOP} python -m pyqtgraph.util.get_resolution
+          "${VIRTUAL_DESKTOP} python -m pyqtgraph.util.get_resolution"
 
       - name: 'Display Info'
         if: runner.os != 'Linux'
@@ -135,7 +135,7 @@ jobs:
           echo "Python version $(python --version)"
           
           # Exit automatically after 3 seconds
-          ${VIRTUAL_DESKTOP} python myrepo/main.py 3
+          {{ env.VIRTUAL_DESKTOP }} python myrepo/main.py 3
 
 
       - name: Lint with flake8
