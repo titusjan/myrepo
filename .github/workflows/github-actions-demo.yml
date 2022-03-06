@@ -59,7 +59,23 @@ jobs:
       - name: Print current directory
         run: echo "Current dir ${PWD}"
 
-      - uses: actions/checkout@v2
+      - name: Print home directory
+        run: echo "Current dir ${HOME}"
+
+      - name: List files in the home directory
+        run: ls -l "${HOME}"
+
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Checkout test data
+        uses: actions/checkout@v2
+        with:
+          repository: titusjan/argos-test-data
+          path: ${HOME}/argos-test-data
+
+      - name: List files in the home directory
+        run: ls -l "${HOME}"
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
@@ -88,7 +104,6 @@ jobs:
       - name: Test with pytest
         run: |
           echo "Current dir ${PWD}"
-          echo "Home dir ${HOME}"
           pytest tests
 
       - name: Run the test program
