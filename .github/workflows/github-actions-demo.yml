@@ -34,7 +34,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ["ubuntu-latest" , "windows-latest"]
+        os: ["ubuntu-latest", "windows-latest", "macos-latest"]
         python-version: ["3.10"]
 
     steps:
@@ -89,23 +89,38 @@ jobs:
           pip install flake8 pytest PyQt5
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Lint with flake8
+      - name: "Install Linux virtual display"
+        if: runner.os == 'Linux'
         run: |
-          # stop the build if there are Python syntax errors or undefined names
-          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+          sudo apt-get update -y
+          sudo apt-get install -y libxkbcommon-x11-0 x11-utils
+          sudo apt-get install --no-install-recommends -y libyaml-dev libegl1-mesa libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0
+          sudo apt-get install -y libopengl0
+          pip install pytest-xvfb
 
-      - name: Print current directory
-        run: echo "Current dir ${PWD}"
-
-      - name: Run ls command
-        run: ls -l
-
-      - name: Test with pytest
+      - name: 'XVFB Display Info'
+        if: runner.os == 'Linux'
         run: |
-          echo "Current dir ${PWD}"
-          pytest tests
+          xvfb-run --server-args="-screen 0, 1920x1200x24 -ac +extension GLX +render -noreset" python -c "from pyqtgraph.opengl.glInfo import GLTest"
+          xvfb-run --server-args="-screen 0, 1920x1200x24 -ac +extension GLX +render -noreset" python -m pyqtgraph.util.get_resolution
+
+      - name: 'Display Info'
+        if: runner.os != 'Linux'
+        run: |
+          python -c "from pyqtgraph.opengl.glInfo import GLTest"
+          python -m pyqtgraph.util.get_resolution
+
+      - name: 'Print debug info'
+        env:
+          QT_DEBUG_PLUGINS: 1
+        run: |
+          echo python location: `which python`
+          echo python version: `python --version`
+          echo pytest location: `which pytest`
+          echo installed packages
+          pip list
+          echo pyqtgraph system info
+          python -c "import pyqtgraph as pg; pg.systemInfo()"
 
       - name: Run the test program
         run: |
@@ -113,3 +128,17 @@ jobs:
           
           # Exit automatically after 3 seconds
           python myrepo/main.py 3
+
+
+      - name: Lint with flake8
+        run: |
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+      - name: Test with pytest
+        run: |
+          echo "Current dir ${PWD}"
+          pytest tests
+
