@@ -106,7 +106,7 @@ jobs:
       - name: 'XVFB Display Info'
         if: runner.os == 'Linux'
         run: |
-          xvfb-run "${VIRTUAL_ARGS}" python -m pyqtgraph.util.get_resolution
+          xvfb-run ${VIRTUAL_ARGS} python -m pyqtgraph.util.get_resolution
 
       - name: 'Display Info'
         if: runner.os != 'Linux'
