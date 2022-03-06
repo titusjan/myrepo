@@ -51,7 +51,7 @@ class MyWindow(QtWidgets.QWidget):
                 self.close()
             else:
                 logger.critical("Exiting program in {:.2f} seconds".format(wait))
-                self.label.setText("{:.2f} seconds".format(wait))
+                #self.label.setText("{:.2f} seconds".format(wait))
 
 
 
