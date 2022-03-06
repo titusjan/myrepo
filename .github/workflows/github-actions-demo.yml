@@ -12,7 +12,7 @@ defaults:
 env:
   DAY_OF_WEEK: Monday
   PROG: ls
-  VIRTUAL_DESKTOP: xvfb-run
+  VIRTUAL_DESKTOP: xvfb-run  # Can't get it to run with this as an environment variable. Perhaps I should make an action of it.
   VIRTUAL_ARGS: --server-args='-screen 0, 1920x1200x24 -ac +render -noreset'
 
 jobs:
@@ -106,7 +106,7 @@ jobs:
       - name: 'XVFB Display Info'
         if: runner.os == 'Linux'
         run: |
-          "${VIRTUAL_DESKTOP}" "${VIRTUAL_ARGS}" python -m pyqtgraph.util.get_resolution
+          xvfb-run "${VIRTUAL_ARGS}" python -m pyqtgraph.util.get_resolution
 
       - name: 'Display Info'
         if: runner.os != 'Linux'
@@ -137,7 +137,7 @@ jobs:
           echo "Python version $(python --version)"
           
           # Exit automatically after 3 seconds
-          "{{ env.VIRTUAL_DESKTOP }}" --server-args="-screen 0, 1920x1200x24 -ac +render -noreset" python myrepo/main.py 3
+          xvfb-run --server-args="-screen 0, 1920x1200x24 -ac +render -noreset" python myrepo/main.py 3
 
 
       - name: Lint with flake8
