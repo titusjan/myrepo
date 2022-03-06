@@ -111,7 +111,7 @@ jobs:
           echo virtual args: ${VIRTUAL_ARGS}
           echo virtual args: $VIRTUAL_DESKTOP $VIRTUAL_ARGS
           python -c "print(${MY_STR})"
-          xvfb-run $VIRTUAL_ARGS ls
+          xvfb-run --server-args='-screen 0, 1920x1200x24 -ac +render -noreset' ls
 
       - name: 'Display Info'
         if: runner.os != 'Linux'
