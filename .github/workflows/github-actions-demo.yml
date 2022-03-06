@@ -56,29 +56,26 @@ jobs:
       - name: Dump env context
         run: echo '${{ toJSON(env) }}'
 
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
       - name: Print current directory
         run: echo "Current dir ${PWD}"
 
-      - name: Print home directory
-        run: echo "Current dir ${HOME}"
-
-      - name: List files in the home directory
-        run: ls -l "${HOME}"
-
-      - name: Checkout source code
-        uses: actions/checkout@v3
+      - name: List files in the current directory
+        run: ls -l
 
       - name: Checkout test data
         uses: actions/checkout@v2
         with:
           repository: titusjan/argos-test-data
-          path: ${{HOME}}/argos-test-data"
+          path: argos-test-data"
 
-      - name: List files in the home directory
-        run: ls -l "${HOME}"
+      - name: List files in the current directory
+        run: ls -l
 
       - name: List files in the argos test data directory
-        run: ls -l "${HOME}/argos-test-data"
+        run: ls -l argos-test-data
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
