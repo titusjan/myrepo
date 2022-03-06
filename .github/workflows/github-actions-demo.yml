@@ -26,7 +26,7 @@ jobs:
         run: echo '${{ toJSON(env) }}'
 
   build:
-    runs-on: macos-latest
+    runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
@@ -77,11 +77,9 @@ jobs:
 
       - name: Print current directory in bash shell
         run: echo "Current dir ${PWD}"
-        shell: bash
 
       - name: Run ls command
         run: ls -l
-        shell: bash
 
       - name: Test with pytest
         run: |
