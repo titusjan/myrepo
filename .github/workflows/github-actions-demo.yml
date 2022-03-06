@@ -5,6 +5,10 @@ name: MyRepo
 
 on: [push, pull_request]
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   dump-contexts-to-log:
     runs-on: windows-latest
@@ -75,7 +79,7 @@ jobs:
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-      - name: Print current directory in bash shell
+      - name: Print current directory
         run: echo "Current dir ${PWD}"
 
       - name: Run ls command
@@ -86,5 +90,3 @@ jobs:
           echo "Current dir ${PWD}"
           echo "Home dir ${HOME}"
           pytest tests
-        shell: bash
-
